@@ -9,6 +9,10 @@ backend, no API keys.** It runs from a single folder served over local HTTP.
 
 **▶ Live demo:** <https://keithligh.github.io/battle-of-hong-kong-1941/>
 
+> **Why this exists** — an open demonstration of how an AI coding agent (Claude Code) can create this kind of 3D
+> historical animation from a single written brief, then directed and refined by hand: history sourced and verified,
+> visuals tuned, bugs fixed. The brief it started from is in **[PROMPT.md](PROMPT.md)**.
+
 ## Gallery
 
 The eighteen-day campaign plays itself as a directed sequence of shots over real Hong Kong terrain — troop
