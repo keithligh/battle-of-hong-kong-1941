@@ -7,6 +7,8 @@
 [![live demo](https://img.shields.io/badge/live_demo-online-2ea44f?style=for-the-badge)](https://keithligh.github.io/battle-of-hong-kong-1941/)
 &nbsp;
 [![built with Claude Code](https://img.shields.io/badge/built_with-Claude_Code-d97757?style=for-the-badge)](PROMPT.md)
+&nbsp;
+[![Star this repo](https://img.shields.io/badge/%E2%98%85_Star_this_repo-FFD93D?style=for-the-badge&logo=github&logoColor=181717)](https://github.com/keithligh/battle-of-hong-kong-1941)
 
 [![code MIT](https://img.shields.io/badge/code-MIT-blue)](LICENSE)
 [![content CC BY 4.0](https://img.shields.io/badge/content-CC_BY_4.0-blue)](https://creativecommons.org/licenses/by/4.0/)
