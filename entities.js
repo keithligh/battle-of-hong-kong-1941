@@ -1,9 +1,9 @@
 /* =====================================================================
- *  entities.js — everything that lives and moves on the battlefield: the
+ *  entities.js: everything that lives and moves on the battlefield: the
  *  unit tokens + flags, the movement arrows, the particle effects (fire /
  *  smoke / flashes), and the weather (rain + sky/light grading per day).
  *  Reads the shared frame clock (Time.now) and shot focus (focusSet) from
- *  state, and seaMesh from terrain — both one-way, so no import cycle.
+ *  state, and seaMesh from terrain, both one-way, so no import cycle.
  * ===================================================================== */
 import { CFG, D, FAC, clamp, lerp, smooth } from "./config.js";
 import { scene, controls, skyMat, sun, hemi, amb, renderer } from "./core.js";
@@ -15,7 +15,7 @@ import { seaMesh } from "./terrain.js";
 /* ========================= UNITS / FLAGS ========================== */
 const unitsGroup=new THREE.Group(); scene.add(unitsGroup);
 const flagWaves=[]; export const unitObjs=[];
-// Unit glyphs — shared geometries built once and reused by every unit (less allocation than a token each).
+// Unit glyphs: shared geometries built once and reused by every unit (less allocation than a token each).
 // Combat units fly an oriented "formation wedge": a notched chevron whose tip points along the unit's
 // advance vector (updateUnits sets token.rotation.y) and whose footprint scales with combat strength.
 const WEDGE_GEO=(()=>{ const s=new THREE.Shape();
@@ -25,7 +25,7 @@ const WEDGE_GEO=(()=>{ const s=new THREE.Shape();
   g.rotateX(-Math.PI/2);                          // tip → world +Z (forward), thickness → +Y (up)
   g.scale(CFG.TOKEN_R*1.25,1,CFG.TOKEN_R*1.25);   // footprint ≈ the former cylinder token
   return g; })();
-// Command posts are not maneuver formations — they wear a static diamond beacon, never a direction arrow.
+// Command posts are not maneuver formations; they wear a static diamond beacon, never a direction arrow.
 const CMD_GEO=new THREE.OctahedronGeometry(CFG.TOKEN_R*0.62);
 // state → formation footprint [frontage, depth] applied to the wedge so 陣型 reads per posture:
 // attack=spearhead, march=narrow column, hold=broad defensive line, retreat=dispersed.
@@ -267,7 +267,7 @@ export function updateFlags(){ for(const flag of flagWaves){ const pos=flag.geom
     pos.setZ(i, Math.sin(bx*0.25+Time.now*5+ph)*CFG.FLAG_TH*0.12*k + Math.sin(by*0.3+Time.now*3)*CFG.FLAG_TH*0.04*k); }
   pos.needsUpdate=true; } }
 
-/* particle systems + sprite texture, built once at module load (scene exists — core imported above) */
+/* particle systems + sprite texture, built once at module load (scene exists, core imported above) */
 const softTex = makeSoftTex();
 const GLOW = makeParticleSystem(1800,true,CFG.GLOW_PSCALE);
 const SMOKE = makeParticleSystem(1100,false,CFG.SMOKE_PSCALE);

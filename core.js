@@ -1,5 +1,5 @@
 /* =====================================================================
- *  core.js — the scene-graph singletons (created once, never reassigned)
+ *  core.js: the scene-graph singletons (created once, never reassigned)
  *  Renderer, camera, controls, lights, sky, and the resize handler. Every
  *  module that draws into the world imports these. Imports config only.
  * ===================================================================== */

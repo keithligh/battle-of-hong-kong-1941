@@ -1,5 +1,5 @@
 /* =====================================================================
- *  terrain.js — the static world: tile loading + compositing, the real
+ *  terrain.js, the static world: tile loading + compositing, the real
  *  height-mesh + sea + place/terrain labels + the Gin Drinkers line + the
  *  moving front. loadTiles() fills projection's geo-state via setGeo/setHeight;
  *  imageryTex is private (only buildTerrain reads it). seaMesh / placeLabels /
@@ -57,8 +57,8 @@ export async function loadTiles(){
       ictx.drawImage(im,(x-x0)*256*scale,(y-y0)*256*scale,256*scale,256*scale)).catch(()=>{imgFail++;}));
   await Promise.all(imgJobs);
   if(demFail>total*0.25 || imgFail>total*0.25)   // tolerate gaps; only fail if too much is missing to be usable
-    throw new Error(`地圖瓦片缺失過多 / too many map tiles missing (DEM ${demFail}/${total}, imagery ${imgFail}/${total}) — 請重新執行 tools/fetch_tiles.ps1`);
-  if(demFail||imgFail) console.warn(`地圖瓦片 / map tiles: ${demFail} DEM + ${imgFail} imagery missing — rendered with gaps`);
+    throw new Error(`地圖瓦片缺失過多 / too many map tiles missing (DEM ${demFail}/${total}, imagery ${imgFail}/${total}) · 請重新執行 tools/fetch_tiles.ps1`);
+  if(demFail||imgFail) console.warn(`地圖瓦片 / map tiles: ${demFail} DEM + ${imgFail} imagery missing; rendered with gaps`);
   applyArchivalGrade(ictx,img.width,img.height);   // vignette + faint grain over the graded tiles
   imageryTex=new THREE.CanvasTexture(img);
   imageryTex.colorSpace=THREE.SRGBColorSpace || undefined;
@@ -67,7 +67,7 @@ export async function loadTiles(){
   imageryTex.needsUpdate=true;
 }
 
-// Archival pass over the composited imagery: a soft vignette (periphery only — centre/battle area stays
+// Archival pass over the composited imagery: a soft vignette (periphery only; centre/battle area stays
 // clear) plus faint film grain, so the present-day satellite mosaic reads as aged documentary footage.
 function applyArchivalGrade(ctx,w,h){
   ctx.filter="none";
@@ -100,7 +100,7 @@ export function buildTerrain(){
   const terrain=new THREE.Mesh(geo, new THREE.MeshStandardMaterial({
     map:imageryTex, roughness:0.96, metalness:0.0 }));
   scene.add(terrain);
-  // static cast-shadows for relief form — the sun direction is FIXED (no arc) so shadows never move;
+  // static cast-shadows for relief form; the sun direction is FIXED (no arc) so shadows never move;
   // day/night stays intensity/colour-driven (honours the standing "no moving shadows" directive).
   terrain.castShadow=true; terrain.receiveShadow=true;
   sun.castShadow=true; sun.shadow.mapSize.set(2048,2048);
@@ -110,7 +110,7 @@ export function buildTerrain(){
 
   // sea: a STATIC, matte, slightly-translucent surface just below the coastline.
   // (No wave animation + low reflectivity + depthWrite:false → no sweeping specular
-  //  highlights and no z-fighting where it meets the shore — i.e. no "moving shadows".)
+  //  highlights and no z-fighting where it meets the shore, i.e. no "moving shadows".)
   const sg=new THREE.PlaneGeometry(MAPW*1.4, MAPD*1.4); sg.rotateX(-Math.PI/2);
   seaMesh=new THREE.Mesh(sg, new THREE.MeshStandardMaterial({
     color:0x14323f, roughness:0.88, metalness:0.04, transparent:true, opacity:0.88, depthWrite:false }));
@@ -181,7 +181,7 @@ export function updateFront(day){
 }
 
 /* ---- place-label focus: show only the nearest few names by camera distance ---- */
-const _rankIdx=[];   // reused across frames — rank place labels by camera distance with no per-frame allocation
+const _rankIdx=[];   // reused across frames; rank place labels by camera distance with no per-frame allocation
 export function updateLabels(){ const NE=CFG.FOCUS.PLACE_NEAR, FA=CFG.FOCUS.PLACE_FAR, K=CFG.FOCUS.MAX_PLACES, n=placeLabels.length;
   if(_rankIdx.length!==n){ _rankIdx.length=0; for(let i=0;i<n;i++) _rankIdx.push(i); }   // rebuild only if the label set changes
   for(let i=0;i<n;i++) placeLabels[i]._d=lookTarget.distanceTo(placeLabels[i].o.position);

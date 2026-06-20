@@ -1,9 +1,9 @@
 /* =====================================================================
- *  state.js — cross-cutting runtime state (the cycle-breaking leaf)
+ *  state.js: cross-cutting runtime state (the cycle-breaking leaf)
  *  The handful of values that several modules both write and read. Holding
  *  them here (object properties + one live-binding setter) lets the per-frame
  *  loop, the Director, and the entity updaters share state WITHOUT importing
- *  one another — so the module graph stays acyclic. Imports only config.
+ *  one another, so the module graph stays acyclic. Imports only config.
  * ===================================================================== */
 import { CFG, clamp } from "./config.js";
 

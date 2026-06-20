@@ -1,15 +1,15 @@
 /* =====================================================================
- *  flags.js — the per-unit flag texture. Each unit flies the real
+ *  flags.js: the per-unit flag texture. Each unit flies the real
  *  national / service flag its force used in DECEMBER 1941 (not the
- *  modern flag — see the anachronism rules below). Pure canvas art; no
+ *  modern flag; see the anachronism rules below). Pure canvas art; no
  *  external assets. Exports flagTexture(unit) → THREE.CanvasTexture.
  *
  *  Two reusable painters do the heavy lifting:
- *    pUnionFlag  — the 1801 Union Flag, drawn once (the offset, counter-
+ *    pUnionFlag: the 1801 Union Flag, drawn once (the offset, counter-
  *                  changed saltire is the one fiddly bit), reused as the
  *                  canton of the White Ensign / Canadian + Indian Red
  *                  Ensigns / Hong Kong Blue Ensign.
- *    pRisingSun16 — the true 16-ray Rising Sun; the disc centre is a
+ *    pRisingSun16: the true 16-ray Rising Sun; the disc centre is a
  *                  parameter, so it serves the IJA Army War Flag (centred)
  *                  and the IJN Naval Ensign (offset toward the hoist).
  *
@@ -18,7 +18,7 @@
  *  India Red Ensign (the tricolour is 1947); HK is the 1876 colonial
  *  Blue Ensign (the Bauhinia is 1997). Detailed emblems (Canada's full
  *  shield, the Star of India sunburst, the HK harbour badge) are reduced
- *  to a legible identifying cue with the correct tinctures — a reduction
+ *  to a legible identifying cue with the correct tinctures, a reduction
  *  of a real sourced flag, NOT a new invention.
  * ===================================================================== */
 
@@ -36,10 +36,10 @@ function pUnionFlag(c, X, Y, w, h){
   c.beginPath(); c.rect(X, Y, w, h); c.clip();
   c.fillStyle = UK_BLUE; c.fillRect(X, Y, w, h);
   const cx = X + w/2, cy = Y + h/2;
-  // St Andrew — broad white diagonals
+  // St Andrew: broad white diagonals
   c.lineCap = "butt"; c.strokeStyle = WHITE; c.lineWidth = h*0.30;
   c.beginPath(); c.moveTo(X, Y); c.lineTo(X+w, Y+h); c.moveTo(X+w, Y); c.lineTo(X, Y+h); c.stroke();
-  // St Patrick — counterchanged red, each arm offset to one side of the white
+  // St Patrick: counterchanged red, each arm offset to one side of the white
   const off = h*0.10;
   c.strokeStyle = UK_RED; c.lineWidth = h*0.10;
   const corners = [[X,Y,0],[X+w,Y,1],[X+w,Y+h,2],[X,Y+h,3]]; // TL, TR, BR, BL
@@ -50,7 +50,7 @@ function pUnionFlag(c, X, Y, w, h){
     const ox = px*off*s, oy = py*off*s;
     c.beginPath(); c.moveTo(cx+ox, cy+oy); c.lineTo(bx+ox, by+oy); c.stroke();
   }
-  // St George — white fimbriation then the red cross
+  // St George: white fimbriation then the red cross
   const wW = h*0.30, rW = h*0.18;
   c.fillStyle = WHITE; c.fillRect(cx-wW/2, Y, wW, h); c.fillRect(X, cy-wW/2, w, wW);
   c.fillStyle = UK_RED; c.fillRect(cx-rW/2, Y, rW, h); c.fillRect(X, cy-rW/2, w, rW);
@@ -100,29 +100,29 @@ function junkHill(c, x, y, r){   // stylised junk + hill silhouette for the HK c
 /* ---- the seven flags (canvas is W×H; field drawn first, then canton, then fly badge) ---- */
 function canton(c){ pUnionFlag(c, 0, 0, W*0.5, H*0.5); }   // top-left quarter
 const flags = {
-  // Imperial Japan — Rising Sun war flags (16-ray). IJA disc centred; IJN disc offset to the hoist (7/18).
+  // Imperial Japan: Rising Sun war flags (16-ray). IJA disc centred; IJN disc offset to the hoist (7/18).
   ija:      (c)=> pRisingSun16(c, 0, 0, W, H, 0.5),
   ijn:      (c)=> pRisingSun16(c, 0, 0, W, H, 7/18),
   hinomaru: (c)=>{ c.fillStyle=WHITE; c.fillRect(0,0,W,H); c.fillStyle=JP_RED; c.beginPath(); c.arc(W*0.5,H*0.5,H*0.30,0,7); c.fill(); },
-  // United Kingdom — the Union Flag
+  // United Kingdom: the Union Flag
   union:    (c)=> pUnionFlag(c, 0, 0, W, H),
-  // Royal Navy — White Ensign (red St George cross + Union canton)
+  // Royal Navy: White Ensign (red St George cross + Union canton)
   rn: (c)=>{ c.fillStyle=WHITE; c.fillRect(0,0,W,H);
     const rW=H*0.16; c.fillStyle=UK_RED; c.fillRect(W/2-rW/2,0,rW,H); c.fillRect(0,H/2-rW/2,W,rW); canton(c); },
-  // Canada — 1922–57 Red Ensign (red field, Union canton, GREEN maple leaves on a white roundel)
+  // Canada: 1922–57 Red Ensign (red field, Union canton, GREEN maple leaves on a white roundel)
   canada: (c)=>{ c.fillStyle=UK_RED; c.fillRect(0,0,W,H); canton(c);
     const dx=W*0.74, dy=H*0.5, dr=H*0.30;
     c.fillStyle=WHITE; c.beginPath(); c.arc(dx,dy,dr,0,7); c.fill();
     mapleLeaf(c, dx,         dy+dr*0.16, dr*0.46, LEAF_GREEN);   // sprig of three (period-correct = GREEN)
     mapleLeaf(c, dx-dr*0.52, dy+dr*0.24, dr*0.36, LEAF_GREEN);
     mapleLeaf(c, dx+dr*0.52, dy+dr*0.24, dr*0.36, LEAF_GREEN); },
-  // British India — Star of India Red Ensign (red field, Union canton, gold star roundel; NO motto lettering)
+  // British India: Star of India Red Ensign (red field, Union canton, gold star roundel; NO motto lettering)
   india: (c)=>{ c.fillStyle=UK_RED; c.fillRect(0,0,W,H); canton(c);
     const dx=W*0.74, dy=H*0.5, dr=H*0.30;
     c.fillStyle="#0b2a5b"; c.beginPath(); c.arc(dx,dy,dr*0.96,0,7); c.fill();   // dark garter ring
     c.fillStyle="#f2ead2"; c.beginPath(); c.arc(dx,dy,dr*0.66,0,7); c.fill();
     starN(c, dx, dy, dr*0.62, 5, GOLD); },
-  // Hong Kong — 1876 colonial Blue Ensign (blue field, Union canton, "local scene" badge → junk + hills)
+  // Hong Kong: 1876 colonial Blue Ensign (blue field, Union canton, "local scene" badge → junk + hills)
   hk: (c)=>{ c.fillStyle=UK_BLUE; c.fillRect(0,0,W,H); canton(c);
     const dx=W*0.74, dy=H*0.5, dr=H*0.31;
     c.fillStyle="#eef3f6"; c.beginPath(); c.arc(dx,dy,dr,0,7); c.fill();
@@ -135,9 +135,9 @@ export function flagTexture(unit){
   const cv = document.createElement("canvas"); cv.width = W; cv.height = H;
   const c = cv.getContext("2d");
   const draw = flags[unit.flag];
-  if(!draw) console.warn(`unknown flag "${unit.flag}" for ${unit.id} — falling back by faction`);
+  if(!draw) console.warn(`unknown flag "${unit.flag}" for ${unit.id}; falling back by faction`);
   (draw || (unit.faction === "jp" ? flags.ija : flags.union))(c);
-  // subtle cloth shadow at the hoist (pole) edge — depth cue, kept clear of the canton emblems
+  // subtle cloth shadow at the hoist (pole) edge; depth cue, kept clear of the canton emblems
   const sh = c.createLinearGradient(0, 0, W*0.18, 0);
   sh.addColorStop(0, "rgba(0,0,0,0.26)"); sh.addColorStop(1, "rgba(0,0,0,0)");
   c.fillStyle = sh; c.fillRect(0, 0, W*0.18, H);

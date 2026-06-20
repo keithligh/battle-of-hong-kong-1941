@@ -1,5 +1,5 @@
 // Minimal static file server for running the Battle of Hong Kong app locally.
-// Real map tiles must be loaded over http (same-origin) — file:// will not work.
+// Real map tiles must be loaded over http (same-origin); file:// will not work.
 // Usage: node tools/serve.js   then open http://localhost:5050
 const http = require("http"), fs = require("fs"), path = require("path");
 const root = path.resolve(__dirname, "..");

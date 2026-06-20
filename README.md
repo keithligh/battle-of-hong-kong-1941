@@ -101,7 +101,7 @@ Map tiles must be loaded over HTTP (same-origin). Opening `index.html` via `file
   Copernicus Sentinel data.
 - Elevation: **SRTM, courtesy U.S. Geological Survey** via AWS Terrain Tiles.
 - 3D engine: **Three.js** (MIT).
-- Background music: *"Victoria Harbour 1941"*, an original AI composition by the author via **Suno**.
+- Background music: *"Victoria Harbour 1941"*, composed by Keith Li with **Suno**.
 - Historical sources: Wikipedia "Battle of Hong Kong"; Tony Banham, *Not the Slightest Chance*; CWGC; Juno Beach
   Centre; Valour Canada; ww2db; Hong Kong Observatory.
 

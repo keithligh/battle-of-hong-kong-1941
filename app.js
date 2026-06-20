@@ -1,12 +1,12 @@
 /* =====================================================================
- *  app.js — Battle of Hong Kong 1941 · interactive 3D documentary (entry)
+ *  app.js: Battle of Hong Kong 1941 · interactive 3D documentary (entry)
  *  REAL terrain: AWS Terrarium DEM + EOX Sentinel-2 cloudless 2016, Web-Mercator,
  *  to scale. Reads window.BATTLE_DATA (real lng/lat). Three.js r128.
  *
  *  This is the thin entry point: it wires the ES modules together, owns the
  *  per-frame loop, and runs the async init() boot sequence. The engine itself
- *  lives in the modules — config · state · core · projection · flags ·
- *  terrain · entities · director — each a single cohesive concern.
+ *  lives in the modules: config · state · core · projection · flags ·
+ *  terrain · entities · director, each a single cohesive concern.
  *  (Loaded as <script type="module">; the vendored THREE libs + data.js are
  *  classic <script>s above it, so global THREE / BATTLE_DATA exist at eval.)
  * ===================================================================== */
@@ -33,7 +33,7 @@ function decollide(){
   if(items.length<1) return;
   const R=items.map(el=>el.getBoundingClientRect());   // batched reads (one reflow)
   const placed=[];
-  // fixed HUD panels are immovable obstacles — a map label must never hide under them
+  // fixed HUD panels are immovable obstacles; a map label must never hide under them
   for(const hudId of ["hud-tl","key"]){ const el=document.getElementById(hudId);
     if(el){ const hb=el.getBoundingClientRect(); if(hb.width>0) placed.push({top:hb.top,bottom:hb.bottom,left:hb.left,right:hb.right}); } }
   for(let i=0;i<items.length;i++){
@@ -72,7 +72,7 @@ function awaitAudio(){   // hold boot until the background mp3 is buffered (10s 
 }
 (async function init(){
   try{
-    // FAC is the single source for the faction colours — push them into the CSS custom properties the legend reads.
+    // FAC is the single source for the faction colours; push them into the CSS custom properties the legend reads.
     { const hx=n=>"#"+n.toString(16).padStart(6,"0"), rs=document.documentElement.style;
       rs.setProperty("--jp",FAC.jp.css);  rs.setProperty("--jp-glow",hx(FAC.jp.glow));
       rs.setProperty("--uk",FAC.uk.css);  rs.setProperty("--uk-glow",hx(FAC.uk.glow)); }

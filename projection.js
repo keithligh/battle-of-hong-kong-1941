@@ -1,5 +1,5 @@
 /* =====================================================================
- *  projection.js — Web-Mercator projection + terrain elevation (the SSOT
+ *  projection.js: Web-Mercator projection + terrain elevation (the SSOT
  *  for lng/lat → world position and for ground height). The geo-bounds and
  *  the composed DEM are filled by terrain.loadTiles() via setGeo()/setHeight();
  *  every other reader goes through project()/sampleHeight()/vec(), so the raw

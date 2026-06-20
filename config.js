@@ -1,5 +1,5 @@
 /* =====================================================================
- *  config.js — Battle of Hong Kong 1941 · tunables, data handle, utilities
+ *  config.js: Battle of Hong Kong 1941 · tunables, data handle, utilities
  *  The loud-failure guard (No Fallback), the CFG/FAC constants, small math,
  *  and the boot helpers. Imported by every other module; imports nothing.
  * ===================================================================== */
@@ -39,7 +39,7 @@ export const CFG = {
   VEXAG: 2.0,           // vertical exaggeration (Y only; XZ stays true to scale)
   TERR_SEG: 420,        // terrain mesh resolution
   SSAA: 1.4,            // supersample factor → render above display res to calm terrain/coastline texture aliasing under the orbit (capped so retina never regresses)
-  // archival film grade on the (present-day) satellite imagery — ages modern colour cues toward
+  // archival film grade on the (present-day) satellite imagery; ages modern colour cues toward
   // period footage so the anachronism is disguised. Noise floor: saturation ≥0.55, vignette ≤0.5
   // so the battle area (image centre) stays legible.
   GRADE:{ filter:"sepia(0.32) saturate(0.6) contrast(1.05) brightness(0.97)", vignette:0.42, grain:0.045 },

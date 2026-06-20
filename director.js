@@ -1,9 +1,9 @@
 /* =====================================================================
- *  director.js — the show: camera framing, lower-third captions, the
+ *  director.js, the show: camera framing, lower-third captions, the
  *  Director state machine that plays the storyboard like a TV programme,
  *  the transport HUD, and wireUI() (controls + muted-autoplay music).
  *  Captions/HUD/wireUI are bidirectionally coupled to the Director, so they
- *  live together here — internal cohesion, not a cross-module cycle.
+ *  live together here; internal cohesion, not a cross-module cycle.
  * ===================================================================== */
 import { CFG, D, clamp, lerp, easeIO, deg, REDUCE_MOTION } from "./config.js";
 import { camera, controls } from "./core.js";
@@ -63,7 +63,7 @@ export const Director = {
   start(){ this.mode="title"; this.t=0; this.playing=true; this.userFree=false; setDay(this.shots[0].day);
     const c=camFromShot({lng:114.16,lat:22.33,dist:2600,az:0,el:52}); camera.position.copy(c.pos); controls.target.copy(c.target);
     lookTarget.copy(controls.target);
-    card("香港保衛戰","THE BATTLE OF HONG KONG · 1941","1941年12月8日 — 25日 · 十八日戰事 · 「黑色聖誕」","Dec 8 – 25, 1941 · eighteen days · \"Black Christmas\""); },
+    card("香港保衛戰","THE BATTLE OF HONG KONG · 1941","1941年12月8日至25日 · 十八日戰事 · 「黑色聖誕」","Dec 8 – 25, 1941 · eighteen days · \"Black Christmas\""); },
   enterShot(i){ this.i=i; this.t=0; this.capShown=false; const sh=this.shots[i];
     this.fromDay=Clock.day; this.toDay=sh.day;   // ease the day across the move → smooth day/night + weather
     setFocus(new Set(sh.focus||[])); this.tgt.copy(shotTarget(sh));
@@ -122,7 +122,7 @@ export function wireUI(){
   const n=D.notes;
   $("notes-body").innerHTML=`<p>${n.summary}</p><h5>考據與呈現說明 · Caveats</h5><ul>`+
     n.caveats.map(c=>`<li>${c}</li>`).join("")+`</ul><h5>主要來源 · Sources</h5><p>${n.sources}</p>`;
-  // flag legend — real 1941 flag swatches, so the several flags on the Allied side read as distinct forces, not noise
+  // flag legend: real 1941 flag swatches, so the several flags on the Allied side read as distinct forces, not noise
   const fk=$("flagkey");
   if(fk){ [["ija","日軍陸軍","Imperial Japanese Army"],["ijn","日本海軍","Imperial Japanese Navy"],
       ["union","英軍","Britain"],["india","英屬印度軍","British India"],["canada","加拿大軍","Canada"],
@@ -136,8 +136,8 @@ export function wireUI(){
   $("notes-btn").onclick=()=>np.classList.toggle("open");
   $("notes-close").onclick=()=>np.classList.remove("open");
   $("lang-btn").onclick=cycleNarrLang;
-  // background music ("Victoria Harbour 1941") — muted autoplay (silent, in sync with the tour); a DELIBERATE click is the ONLY thing that produces sound
-  const bgm=$("bgm"), musicBtn=$("music-btn"); bgm.volume=0.55; bgm.muted=true;   // muted from the start (HTML `muted` attr + re-asserted here) — silent until the user opts in
+  // background music ("Victoria Harbour 1941"); muted autoplay (silent, in sync with the tour); a DELIBERATE click is the ONLY thing that produces sound
+  const bgm=$("bgm"), musicBtn=$("music-btn"); bgm.volume=0.55; bgm.muted=true;   // muted from the start (HTML `muted` attr + re-asserted here); silent until the user opts in
   let soundOn=false;   // honest default: the user has NOT opted into sound. Governs ONLY audibility (bgm.muted), never the timeline (play/pause).
   const paintMusic=()=>{ musicBtn.textContent=soundOn?"🔊":"🔇"; musicBtn.classList.toggle("off",!soundOn); };   // icon = the user's sound preference (🔇 on load → never reads "on" over a silent first load)
   // the MUTED timeline follows the tour's play/pause ONLY (decoupled from soundOn), so the soundtrack stays in sync for an eventual unmute.

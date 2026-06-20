@@ -1,5 +1,5 @@
 /* =====================================================================
- *  data.js  —  scenario data for the Battle of Hong Kong 1941
+ *  data.js: scenario data for the Battle of Hong Kong 1941
  *  ---------------------------------------------------------------------
  *  Pure data, no logic. Consumed via window.BATTLE_DATA (config.js re-exports it as D).
  *  Facts compiled and cross-checked against the sources listed in notes.sources.
@@ -253,7 +253,7 @@ window.BATTLE_DATA = (function () {
     { a:10.6,b:11.6, lng:114.138, lat:22.363, kind:"firefight", i:0.8 },  // Golden Hill
     { a:13,  b:18.2, lng:114.175, lat:22.330, kind:"artillery", i:0.9 },  // Kowloon guns fire S
     { a:13,  b:18.4, lng:114.190, lat:22.290, kind:"explosion", i:0.7 },  // shells land N shore
-    { a:15,  b:25.5, lng:114.200, lat:22.293, kind:"oilfire",   i:1.0 },  // North Point oil fires — burns past the surrender (aftermath glow, not combat)
+    { a:15,  b:25.5, lng:114.200, lat:22.293, kind:"oilfire",   i:1.0 },  // North Point oil fires; burns past the surrender (aftermath glow, not combat)
     { a:18,  b:19.2, lng:114.200, lat:22.293, kind:"landing",   i:1.0 },  // North Point landing
     { a:18,  b:19.2, lng:114.237, lat:22.289, kind:"landing",   i:0.9 },  // Sai Wan / Lei Yue Mun
     { a:18.2,b:19.4, lng:114.190, lat:22.300, kind:"firefight", i:0.8 },  // harbour MTB fight
@@ -261,8 +261,8 @@ window.BATTLE_DATA = (function () {
     { a:19,  b:20.2, lng:114.205, lat:22.267, kind:"firefight", i:0.8 },  // Mount Butler (Osborn VC)
     { a:19,  b:20.2, lng:114.192, lat:22.268, kind:"firefight", i:0.7 },  // Jardine's Lookout
     { a:21,  b:22.6, lng:114.196, lat:22.235, kind:"firefight", i:0.9 },  // Repulse Bay
-    { a:24,  b:24.9, lng:114.213, lat:22.218, kind:"firefight", i:1.0 },  // Stanley last stand — fades out before the 25th "Fall" scene (combat ends; city falls)
-    { a:24,  b:24.9, lng:114.213, lat:22.218, kind:"explosion", i:0.6 },  // ditto — Stanley shellfire ceases before the Fall
+    { a:24,  b:24.9, lng:114.213, lat:22.218, kind:"firefight", i:1.0 },  // Stanley last stand; fades out before the 25th "Fall" scene (combat ends; city falls)
+    { a:24,  b:24.9, lng:114.213, lat:22.218, kind:"explosion", i:0.6 },  // ditto; Stanley shellfire ceases before the Fall
   ];
 
   /* -- weather profile per day (interpolated) ---------------------- */
@@ -278,7 +278,7 @@ window.BATTLE_DATA = (function () {
     { d:13, night:0.70, fog:0.12, rain:0,    smoke:0.20, zh:"涼 · 拂曉前 · 港面硝煙", en:"Cool; pre-dawn; harbour smoke" }, // Devil's Peak rearguard ~04:00
     { d:15, night:0,    fog:0.15, rain:0,    smoke:0.30, zh:"隔港砲轟 · 硝煙漸濃",    en:"Cross-harbour shelling; smoke building" }, // bombardment haze, not yet the oil pall
     { d:17, night:0,    fog:0.25, rain:0.05, smoke:0.45, zh:"轉壞 · 硝煙瀰漫",        en:"Weather worsening; smoke thickening" },
-    { d:18, night:1.0,  fog:0.75, rain:0.65, smoke:0.95, zh:"夜渡 · 雨 · 霧 · 油庫濃煙（能見近零）", en:"Night landings · rain · fog · oil-fire pall" }, // North Point oil tanks ablaze — PEAK
+    { d:18, night:1.0,  fog:0.75, rain:0.65, smoke:0.95, zh:"夜渡 · 雨 · 霧 · 油庫濃煙（能見近零）", en:"Night landings · rain · fog · oil-fire pall" }, // North Point oil tanks ablaze; PEAK
     { d:19, night:0.25, fog:0.55, rain:0.85, smoke:0.70, zh:"傾盆大雨 · 陰",          en:"Pouring rain, overcast" },     // dark stormy DAY (night<0.5 keeps day colour)
     { d:20, night:0.15, fog:0.45, rain:0.70, smoke:0.55, zh:"陰雨 · 能見差",          en:"Dark & rainy" },
     { d:21, night:0,    fog:0.30, rain:0.20, smoke:0.45, zh:"漸轉乾涼 · 殘雲",        en:"Clearing, cool" },
@@ -314,13 +314,13 @@ window.BATTLE_DATA = (function () {
     { day:9,  hold:9,  cam:{lng:114.150,lat:22.388,dist:620,az:200,el:50,orbit:0.8},
       dateLabel:"12月9日 夜", title_zh:"夜襲城門碉堡", title_en:"Night Assault · Shing Mun Redoubt",
       narration_zh:"土井大佐擅自發動夜襲，滲透僅約30名皇家蘇格蘭兵據守的隧道與機槍堡群。",
-      narration_en:"Colonel Doi launches an unsanctioned night assault, infiltrating the tunnels and pillboxes of the Shing Mun Redoubt — held by only about 30 Royal Scots.",
+      narration_en:"Colonel Doi launches an unsanctioned night assault, infiltrating the tunnels and pillboxes of the Shing Mun Redoubt, held by only about 30 Royal Scots.",
       commanders:[{zh:"土井定七",en:"Col. Doi Sadashichi"},{zh:"懷特",en:"Lt-Col White"}], focus:["jp_228","uk_royalscots"], side:"both" },
 
     { day:10, hold:8,  cam:{lng:114.150,lat:22.375,dist:1000,az:180,el:48,orbit:0.8},
       dateLabel:"12月10日", title_zh:"城門碉堡陷落 · 防線動搖", title_en:"The Redoubt Falls",
       narration_zh:"402號機槍堡02:30被毀，碉堡失守；開戰首夜即失醉酒灣防線之西翼樞紐。",
-      narration_en:"Pillbox 402 is blown at 02:30 and the redoubt falls — the western linchpin of the Gin Drinkers Line lost on the very first night.",
+      narration_en:"Pillbox 402 is blown at 02:30 and the redoubt falls, and the western linchpin of the Gin Drinkers Line is lost on the very first night.",
       commanders:[{zh:"土井定七",en:"Col. Doi Sadashichi"}], focus:["jp_228","uk_royalscots"], side:"jp" },
 
     { day:12, hold:8,  cam:{lng:114.175,lat:22.345,dist:1300,az:0,el:42,orbit:0.8},
@@ -356,7 +356,7 @@ window.BATTLE_DATA = (function () {
     { day:19, hold:10, cam:{lng:114.190,lat:22.266,dist:700,az:200,el:50,orbit:0.8},
       dateLabel:"12月19日", title_zh:"黃泥涌峽爭奪戰", title_en:"Battle for Wong Nai Chung Gap",
       narration_zh:"日軍奪柏架山、渣甸山，直撲全島樞紐黃泥涌峽——這是整場戰役最血腥的一天。",
-      narration_en:"The Japanese take Mount Parker and Jardine's Lookout and drive for Wong Nai Chung Gap, the hinge of the whole Island — the bloodiest day of the battle.",
+      narration_en:"The Japanese take Mount Parker and Jardine's Lookout and drive for Wong Nai Chung Gap, the hinge of the whole Island, on the bloodiest day of the battle.",
       commanders:[{zh:"東海林俊成",en:"Col. Shoji"}], focus:["jp_230","uk_winnipeg","uk_hkvdc"], side:"both" },
 
     { day:19, hold:9,  cam:{lng:114.187,lat:22.263,dist:520,az:200,el:48,orbit:0.7},
@@ -368,7 +368,7 @@ window.BATTLE_DATA = (function () {
     { day:19, hold:8,  cam:{lng:114.205,lat:22.267,dist:600,az:20,el:48,orbit:0.8},
       dateLabel:"12月19日", title_zh:"奧斯本準尉畢拿山捨身（VC）", title_en:"CSM Osborn's Victoria Cross",
       narration_zh:"溫尼伯榴彈兵的奧斯本連隊軍士長以身撲手榴彈救部下，追授維多利亞十字勳章。",
-      narration_en:"Osborn, a company sergeant-major of the Winnipeg Grenadiers, smothers a grenade with his body to save his men — awarded a posthumous Victoria Cross.",
+      narration_en:"Osborn, a company sergeant-major of the Winnipeg Grenadiers, smothers a grenade with his body to save his men, and is awarded a posthumous Victoria Cross.",
       commanders:[{zh:"奧斯本",en:"CSM J.R. Osborn"}], focus:["uk_winnipeg"], side:"uk" },
 
     { day:21, hold:8,  cam:{lng:114.197,lat:22.235,dist:720,az:180,el:42,orbit:0.8},
