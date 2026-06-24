@@ -210,7 +210,7 @@ window.BATTLE_DATA = (function () {
       commander:{ zh:"哥連臣", en:"Cdre A.C. Collinson", rank:"准將/海軍准將 / Commodore" },
       note:"驅逐艦色雷斯人號、炮艇蟬號及2nd MTB魚雷艇隊突擊日軍登陸艇。",
       track:[ {d:8,lng:114.165,lat:22.300,s:1400,st:"hold"}, {d:18,lng:114.190,lat:22.295,s:1000,st:"attack"},
-              {d:19,lng:114.180,lat:22.300,s:600,st:"dead"}, {d:21,lng:114.160,lat:22.300,s:300,st:"dead"} ] },
+              {d:19,lng:114.180,lat:22.300,s:600,st:"attack"}, {d:21,lng:114.160,lat:22.300,s:300,st:"dead"} ] },
   ];
 
   /* -- movement arrows (visibility window lives in entities.js updateArrows: ~0.6d before to ~1.1d after `d`); [lng,lat] --- */
@@ -297,7 +297,7 @@ window.BATTLE_DATA = (function () {
       "天氣：除18–20日有確鑿之雨/霧/濃煙記載外，逐日溫度與其餘日子多為東北季候風氣候推算（皇家天文台戰時觀測中斷）。",
       "部隊每日位置為配合敘事的示意化部署（錨定於真實地名經緯度），非逐時精確戰術圖。",
     ],
-    sources:"地理：AWS Terrarium 高程瓦片（SRTM／USGS）、EOX Sentinel-2 cloudless 2016（含經修改之 Copernicus Sentinel 資料，CC BY 4.0）。史實：Wikipedia『Battle of Hong Kong』、Tony Banham《Not the Slightest Chance》、CWGC、Juno Beach Centre、Valour Canada、ww2db、香港天文台氣候資料、zh-HK 維基百科（多方來源交叉核對）。",
+    sources:"地理：AWS Terrarium 高程瓦片（SRTM／USGS）、EOX Sentinel-2 cloudless 2016（含經修改之 Copernicus Sentinel 資料，CC BY 4.0）。史實：Wikipedia『Battle of Hong Kong』、Tony Banham《Not the Slightest Chance》、CWGC、Juno Beach Centre、Valour Canada、ww2db、香港天文台氣候資料、zh-HK 維基百科（多方來源交叉核對）；海空專題：皇家海軍第二魚雷艇隊／海岸部隊（hongkongescape.org、naval-history.net 傷亡紀錄）、啟德空襲（Pan Am Historical Foundation、Pacific Eagles）。",
   };
 
   /* -- storyboard: the directed broadcast (SSOT for the TV-special tour) -- *
@@ -310,6 +310,12 @@ window.BATTLE_DATA = (function () {
       narration_zh:"珍珠港事變數小時後，佐野第38師團渡深圳河南下；日機同晨炸毀啟德，開戰即奪制空權。",
       narration_en:"Hours after Pearl Harbor, Sano's 38th Division crosses the Shenzhen River; the same morning Japanese aircraft wreck Kai Tak and seize air supremacy at the outset.",
       commanders:[{zh:"酒井隆",en:"Lt-Gen Sakai Takashi"}], focus:["jp_38div","jp_228","jp_air"], side:"jp" },
+
+    { day:8.1, hold:8,  cam:{lng:114.199,lat:22.328,dist:680,az:200,el:46,orbit:0.7},
+      dateLabel:"12月8日 晨", title_zh:"啟德空襲 · 痛失制空權", title_en:"Air Raid on Kai Tak",
+      narration_zh:"開戰首日清晨，日機空襲啟德機場，守軍僅有的數架舊式軍機、皇家海軍水上飛機，連同停泊的泛美「香港飛剪號」客機悉數被毀。盟軍空中力量第一天便蕩然無存，地勤人員自此轉作步兵。",
+      narration_en:"At dawn on the first day, Japanese aircraft raid Kai Tak: the garrison's handful of obsolete aircraft, the Royal Navy's amphibians and the moored Pan Am \"Hong Kong Clipper\" are all destroyed. Allied air power is gone on day one, and the ground crews fight on as infantry.",
+      commanders:[{zh:"飛行第四十五戰隊",en:"45th Sentai · Ki-32"}], focus:["jp_air"], side:"jp" },
 
     { day:9,  hold:9,  cam:{lng:114.150,lat:22.388,dist:620,az:200,el:50,orbit:0.8},
       dateLabel:"12月9日 夜", title_zh:"夜襲城門碉堡", title_en:"Night Assault · Shing Mun Redoubt",
@@ -352,6 +358,12 @@ window.BATTLE_DATA = (function () {
       narration_zh:"雨、霧與油庫濃煙掩護下，三聯隊乘小艇橫渡維港，於北角至筲箕灣強行登陸。",
       narration_en:"Under rain, fog and oil smoke, three regiments cross the harbour in small boats and storm ashore between North Point and Shau Kei Wan.",
       commanders:[{zh:"田中良三郎",en:"Col. Tanaka"},{zh:"東海林俊成",en:"Col. Shoji"}], focus:["jp_229","jp_230","uk_rajput"], side:"jp" },
+
+    { day:19, hold:9,  cam:{lng:114.180,lat:22.300,dist:720,az:330,el:40,orbit:0.8},
+      dateLabel:"12月19日 晨", title_zh:"魚雷艇白晝突擊 · 維港「輕騎兵衝鋒」", title_en:"The MTB Charge · 'Balaclava of the Sea'",
+      narration_zh:"十九日晨，皇家海軍第二魚雷艇隊在甘地中校率領下，冒傾盆大雨與滿港硝煙，白晝衝入維港，突擊正在增援的日軍登陸艇隊。艇隊損失約四成（包括12號及26號艇），其孤注一擲被譽為「海上的輕騎兵衝鋒」。",
+      narration_en:"On the morning of the 19th the Royal Navy's 2nd MTB Flotilla, led by Lt-Cdr Gandy, charges into the harbour in daylight through pouring rain and smoke, attacking the reinforcing Japanese landing craft. About 40% of the boats are lost (among them MTB 12 and MTB 26), in what is remembered as \"the Balaclava of the Sea\".",
+      commanders:[{zh:"甘地中校",en:"Lt-Cdr G.H. Gandy"}], focus:["uk_rn"], side:"uk" },
 
     { day:19, hold:10, cam:{lng:114.190,lat:22.266,dist:700,az:200,el:50,orbit:0.8},
       dateLabel:"12月19日", title_zh:"黃泥涌峽爭奪戰", title_en:"Battle for Wong Nai Chung Gap",
