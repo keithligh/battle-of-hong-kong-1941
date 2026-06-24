@@ -86,6 +86,7 @@
   #key .syms>summary::before{content:"▸ ";font-size:9px}
   #key .syms[open]>summary::before{content:"▾ "}
   #key .syms .row{margin:3px 0}
+  #key .syms:not([open]) > :not(summary){display:none}   /* closed details hide their rows so the legend panel never overflows (the .row display:flex above otherwise overrides the UA closed-details hiding) */
   #key .gl{display:inline-flex;align-items:center;justify-content:center;width:14px;font-size:12px;color:var(--ink)}
   #key .gl.mini{width:16px;height:6px;border-radius:2px;background:rgba(255,255,255,.14);overflow:hidden}
   #key .gl.mini>i{display:block;height:100%;width:62%;background:linear-gradient(90deg,#1f3f7a,var(--uk))}
