@@ -11,7 +11,7 @@ scene.fog = new THREE.FogExp2(0x9fb3c4, 0.00018);
 
 export const camera = new THREE.PerspectiveCamera(50, innerWidth/innerHeight, 10, 16000);   // near=10 (not 1): a tiny near plane wrecks z-precision at distance → the translucent sea's depth-test twinkles under the wide-shot orbit
 
-export const renderer = new THREE.WebGLRenderer({antialias:true, powerPreference:"high-performance", preserveDrawingBuffer:true});
+export const renderer = new THREE.WebGLRenderer({antialias:true, powerPreference:"high-performance", preserveDrawingBuffer:false, failIfMajorPerformanceCaveat:false});
 renderer.setPixelRatio(Math.min(devicePixelRatio*CFG.SSAA, 2));   // supersample (capped at 2 → no retina regression)
 renderer.setSize(innerWidth, innerHeight);
 renderer.outputEncoding = THREE.sRGBEncoding;
@@ -31,6 +31,13 @@ export const controls = new THREE.OrbitControls(camera, renderer.domElement);
 controls.enableDamping=true; controls.dampingFactor=0.08;
 controls.minDistance=90; controls.maxDistance=6500;
 controls.maxPolarAngle=Math.PI*0.495;
+
+// Free the GL context on unload so a reload does not LEAK it (browsers reclaim lazily; without this, iterative
+// reloading exhausts the WebGL context cap → "Error creating WebGL context", worst on integrated GPUs).
+let _glReleased=false;
+function releaseGL(){ if(_glReleased)return; _glReleased=true;
+  try{ controls.dispose(); }catch(e){} try{ renderer.forceContextLoss(); }catch(e){} try{ renderer.dispose(); }catch(e){} }
+addEventListener("pagehide", releaseGL); addEventListener("beforeunload", releaseGL);
 
 export const sun = new THREE.DirectionalLight(0xfff1d6, 1.1);
 sun.position.set(900, 1500, 700); scene.add(sun);

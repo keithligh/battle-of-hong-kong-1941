@@ -1,11 +1,19 @@
-# Terrain + imagery tiles are NOT committed; run tools/fetch_tiles.ps1 to populate them.
+# Terrain + imagery tiles are NOT committed (fetched at setup/deploy, never published).
 lib/tiles/
-
-# Local deploy build output; generated, never published.
-deploy/
 
 # OS / editor cruft
 .DS_Store
 Thumbs.db
 *.log
 node_modules/
+
+# Internal development-process artifacts must NEVER appear in the public repo. root/ keeps the ASGA build trail and
+# tools/sync.ps1's allowlist already never copies them here — this is the belt-and-suspenders guard for `git add -A`.
+Implementation_Plan_*.md
+System_Impact_*.md
+Walkthrough_Artifact_*.md
+Reasoning_Artifact_*.md
+Feasibility_Study_*.md
+Project_State_Audit.md
+Violation_Report.md
+DEFERRED.md

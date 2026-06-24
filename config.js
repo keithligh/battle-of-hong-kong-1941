@@ -38,7 +38,8 @@ export const CFG = {
   TARGET_UNITS: 2000,   // world width of the map (height derived → to scale)
   VEXAG: 2.0,           // vertical exaggeration (Y only; XZ stays true to scale)
   TERR_SEG: 420,        // terrain mesh resolution
-  SSAA: 1.4,            // supersample factor → render above display res to calm terrain/coastline texture aliasing under the orbit (capped so retina never regresses)
+  SSAA: 1.0,            // supersample factor (1.0 keeps the framebuffer light enough for integrated GPUs; antialias MSAA still smooths edges)
+  MAX_IMAGERY_TEX: 4096,// cap the composited imagery texture's long side (integrated-GPU memory safety). HK native is 2816px so this is inert here; present for consistency.
   // archival film grade on the (present-day) satellite imagery; ages modern colour cues toward
   // period footage so the anachronism is disguised. Noise floor: saturation ≥0.55, vignette ≤0.5
   // so the battle area (image centre) stays legible.

@@ -45,7 +45,7 @@ export async function loadTiles(){
 
   // --- imagery → texture (graded for a documentary look) ---
   bootMsg("載入衛星影像…");
-  const maxT=renderer.capabilities.maxTextureSize||4096;
+  const maxT=Math.min(renderer.capabilities.maxTextureSize||4096, CFG.MAX_IMAGERY_TEX);   // cap on the long side → integrated-GPU memory safety (inert on HK's 2816px native)
   const nativeW=nx*256, nativeH=ny*256, scale=Math.min(1, maxT/Math.max(nativeW,nativeH));
   const img=document.createElement("canvas"); img.width=Math.round(nativeW*scale); img.height=Math.round(nativeH*scale);
   const ictx=img.getContext("2d");
