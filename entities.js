@@ -33,21 +33,24 @@ const AIR_GEO=(()=>{ const s=new THREE.Shape();
   s.moveTo(0,-1.25); s.lineTo(0.10,-0.15); s.lineTo(0.66,0.62); s.lineTo(0.12,0.50);   // nose → fuselage → swept wingtip → trailing root
   s.lineTo(0.10,1.05); s.lineTo(-0.10,1.05);                                            // tailplane
   s.lineTo(-0.12,0.50); s.lineTo(-0.66,0.62); s.lineTo(-0.10,-0.15); s.closePath();     // left mirror
-  const g=new THREE.ExtrudeGeometry(s,{depth:0.7, bevelEnabled:false});                 // chunky slab so the plane reads as a bold token, not a thin decal
-  g.rotateX(-Math.PI/2); g.scale(CFG.TOKEN_R*2.1,1,CFG.TOKEN_R*2.1); return g; })();     // bold footprint: a slender silhouette needs extra size to read at cinematic distance
+  const g=new THREE.ExtrudeGeometry(s,{depth:0.6, bevelEnabled:false});                 // a thin slab; the swept shape carries the read
+  g.rotateX(-Math.PI/2); g.scale(CFG.TOKEN_R*1.45,1,CFG.TOKEN_R*1.45); return g; })();   // sized close to the infantry wedge (1.25) for proportion — a unit is a unit, just a different shape
 // Naval units render as a warship hull: an elongated silhouette with a pointed bow, riding at sea level.
 const NAVY_GEO=(()=>{ const s=new THREE.Shape();
   s.moveTo(0,-1.35); s.lineTo(0.30,-0.55); s.lineTo(0.32,0.95); s.lineTo(-0.32,0.95); s.lineTo(-0.30,-0.55);  // bow → sides → squared stern
   s.closePath();
   const g=new THREE.ExtrudeGeometry(s,{depth:1.0, bevelEnabled:false});
-  g.rotateX(-Math.PI/2); g.scale(CFG.TOKEN_R*1.9,1,CFG.TOKEN_R*1.9); return g; })();
-// Artillery renders as a gun: a wide carriage at the rear with a long barrel projecting forward (+Z, along the heading).
+  g.rotateX(-Math.PI/2); g.scale(CFG.TOKEN_R*1.45,1,CFG.TOKEN_R*1.45); return g; })();
+// Artillery renders as a field gun: a SOLID rectangular body (gun + wheels — a clear mass, not a wisp) with a
+// stubby barrel projecting forward (+Z, along the heading). Kept solid + visible so it reads even as a dim
+// background unit, distinct from the pointed wedge/delta/hull.
 const ARTY_GEO=(()=>{ const s=new THREE.Shape();
-  s.moveTo(0.12,-1.3); s.lineTo(0.12,-0.2); s.lineTo(0.62,0.35); s.lineTo(0.62,0.95);   // barrel (right edge) → carriage shoulder
-  s.lineTo(-0.62,0.95); s.lineTo(-0.62,0.35); s.lineTo(-0.12,-0.2); s.lineTo(-0.12,-1.3);  // carriage (wide rear box) → barrel (left edge)
+  s.moveTo(0.16,-1.45); s.lineTo(0.16,-0.5);             // barrel, right edge (muzzle forward at -1.45)
+  s.lineTo(0.52,-0.5); s.lineTo(0.52,0.85); s.lineTo(-0.52,0.85); s.lineTo(-0.52,-0.5);   // solid body (gun + wheels)
+  s.lineTo(-0.16,-0.5); s.lineTo(-0.16,-1.45);           // barrel, left edge
   s.closePath();
   const g=new THREE.ExtrudeGeometry(s,{depth:1.0, bevelEnabled:false});
-  g.rotateX(-Math.PI/2); g.scale(CFG.TOKEN_R*1.7,1,CFG.TOKEN_R*1.7); return g; })();
+  g.rotateX(-Math.PI/2); g.scale(CFG.TOKEN_R*1.55,1,CFG.TOKEN_R*1.55); return g; })();
 // state → formation footprint [frontage, depth] applied to the wedge so 陣型 reads per posture:
 // attack=spearhead, march=narrow column, hold=broad defensive line, retreat=dispersed.
 const FORM={ attack:[1,1], landing:[1.06,1.06], march:[0.62,1.18], hold:[1.5,0.55], retreat:[1.25,0.7], dead:[1,1] };
