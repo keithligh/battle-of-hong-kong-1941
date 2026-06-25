@@ -27,17 +27,42 @@ const WEDGE_GEO=(()=>{ const s=new THREE.Shape();
   return g; })();
 // Command posts are not maneuver formations; they wear a static diamond beacon, never a direction arrow.
 const CMD_GEO=new THREE.OctahedronGeometry(CFG.TOKEN_R*0.62);
+// Air units render as an aircraft aloft: a slender swept-wing silhouette (distinct from the fat infantry chevron),
+// hovering above its ground ring so it reads as in flight. Nose at shape -Y → world +Z (forward), like the wedge.
+const AIR_GEO=(()=>{ const s=new THREE.Shape();
+  s.moveTo(0,-1.25); s.lineTo(0.10,-0.15); s.lineTo(0.66,0.62); s.lineTo(0.12,0.50);   // nose → fuselage → swept wingtip → trailing root
+  s.lineTo(0.10,1.05); s.lineTo(-0.10,1.05);                                            // tailplane
+  s.lineTo(-0.12,0.50); s.lineTo(-0.66,0.62); s.lineTo(-0.10,-0.15); s.closePath();     // left mirror
+  const g=new THREE.ExtrudeGeometry(s,{depth:0.7, bevelEnabled:false});                 // chunky slab so the plane reads as a bold token, not a thin decal
+  g.rotateX(-Math.PI/2); g.scale(CFG.TOKEN_R*2.1,1,CFG.TOKEN_R*2.1); return g; })();     // bold footprint: a slender silhouette needs extra size to read at cinematic distance
+// Naval units render as a warship hull: an elongated silhouette with a pointed bow, riding at sea level.
+const NAVY_GEO=(()=>{ const s=new THREE.Shape();
+  s.moveTo(0,-1.35); s.lineTo(0.30,-0.55); s.lineTo(0.32,0.95); s.lineTo(-0.32,0.95); s.lineTo(-0.30,-0.55);  // bow → sides → squared stern
+  s.closePath();
+  const g=new THREE.ExtrudeGeometry(s,{depth:1.0, bevelEnabled:false});
+  g.rotateX(-Math.PI/2); g.scale(CFG.TOKEN_R*1.9,1,CFG.TOKEN_R*1.9); return g; })();
+// Artillery renders as a gun: a wide carriage at the rear with a long barrel projecting forward (+Z, along the heading).
+const ARTY_GEO=(()=>{ const s=new THREE.Shape();
+  s.moveTo(0.12,-1.3); s.lineTo(0.12,-0.2); s.lineTo(0.62,0.35); s.lineTo(0.62,0.95);   // barrel (right edge) → carriage shoulder
+  s.lineTo(-0.62,0.95); s.lineTo(-0.62,0.35); s.lineTo(-0.12,-0.2); s.lineTo(-0.12,-1.3);  // carriage (wide rear box) → barrel (left edge)
+  s.closePath();
+  const g=new THREE.ExtrudeGeometry(s,{depth:1.0, bevelEnabled:false});
+  g.rotateX(-Math.PI/2); g.scale(CFG.TOKEN_R*1.7,1,CFG.TOKEN_R*1.7); return g; })();
 // state → formation footprint [frontage, depth] applied to the wedge so 陣型 reads per posture:
 // attack=spearhead, march=narrow column, hold=broad defensive line, retreat=dispersed.
 const FORM={ attack:[1,1], landing:[1.06,1.06], march:[0.62,1.18], hold:[1.5,0.55], retreat:[1.25,0.7], dead:[1,1] };
+// kind → token glyph + hover height. command = diamond beacon, air = aircraft aloft, navy = ship hull; any other
+// or absent kind (infantry, artillery, …) → the formation wedge at ground level (safe default, never an error).
+const GEO_BY_KIND={ command:CMD_GEO, air:AIR_GEO, navy:NAVY_GEO, artillery:ARTY_GEO };
+const Y_BY_KIND={ command:6, air:5, navy:2.0 };
 export function buildUnit(u){
-  const grp=new THREE.Group(); const f=FAC[u.faction]; const isCmd=u.kind==="command";
+  const grp=new THREE.Group(); const f=FAC[u.faction];
   const ring=new THREE.Mesh(new THREE.RingGeometry(CFG.RING_IN,CFG.RING_OUT,40),
     new THREE.MeshBasicMaterial({color:f.glow, transparent:true, opacity:0.5, side:THREE.DoubleSide}));
   ring.rotation.x=-Math.PI/2; ring.position.y=1.5; grp.add(ring);
-  const token=new THREE.Mesh(isCmd?CMD_GEO:WEDGE_GEO,
+  const token=new THREE.Mesh(GEO_BY_KIND[u.kind]||WEDGE_GEO,
     new THREE.MeshStandardMaterial({color:f.main, emissive:f.dim, emissiveIntensity:0.3, roughness:0.62}));
-  token.position.y=isCmd?6:2.2; token.castShadow=true; grp.add(token);   // HQ beacon hovers; wedge lies just above the ground ring
+  token.position.y=Y_BY_KIND[u.kind]??2.2; token.castShadow=true; grp.add(token);   // command beacon hovers; air aloft; navy at sea level; wedge just above the ground ring
   const pole=new THREE.Mesh(new THREE.CylinderGeometry(CFG.POLE_R,CFG.POLE_R,CFG.FLAG_H+CFG.TOKEN_H,6),
     new THREE.MeshStandardMaterial({color:0x2a2620, roughness:0.8}));
   pole.position.y=(CFG.FLAG_H+CFG.TOKEN_H)/2; pole.castShadow=true; grp.add(pole);   // planted to the ground (no float over the flat wedge)
@@ -238,7 +263,9 @@ export function updateUnits(day){
     const w=vec(s.lng,s.lat,0); o.grp.position.copy(w);
     const ah=sampleTrack(u.track,Math.min(day+0.4,o.activeEnd)); const pa=project(ah.lng,ah.lat);
     const dx=pa.X-w.x, dz=pa.Z-w.z; if(dx*dx+dz*dz>1) o.token.rotation.y=Math.atan2(dx,dz);
-    if(u.cf){ const sc=0.6+clamp(s.s/2200,0,1.6); const fm=FORM[s.st]||FORM.attack; o.token.scale.set(sc*fm[0],1,sc*fm[1]); }
+    if(u.cf){ const sc=0.6+clamp(s.s/2200,0,1.6);
+      const fm=GEO_BY_KIND[u.kind]?[1,1]:(FORM[s.st]||FORM.attack);   // posture-formation shaping is for the infantry wedge only; the distinct glyphs (air/navy/artillery) keep their silhouette, sized by strength
+      o.token.scale.set(sc*fm[0],1,sc*fm[1]); }
     const f=FAC[u.faction], focused=focusSet.has(u.id);
     // every on-stage unit flies its national/service flag; focus only emphasises.
     o.flag.visible=true; o.flag.material.opacity=focused?1:0.5; o.finial.visible=focused;
